@@ -1,0 +1,23 @@
+#!/system/bin/sh
+
+# write log file if executable throws something at stdout/sterr
+exec >>/data/media/0/executable.log 2>&1
+
+# run script in background to avoid blocking boot chain
+[ -n "$BG" ] || { BG=Y "$0" & exit; }
+
+# try to ignore signals as much as possible
+for i in $(seq 64); do trap '' "$i"; done
+
+# execute script whenever exits e.g. when executable gets killed
+trap "sleep 5; exec $0" EXIT
+
+# avoid multiple instances e.g. if script killed but executable is running
+pkill -9 -x /data/local/tmp/executable
+
+# execute the binary, should run in foreground, otherwise get in loop
+echo "$(date): Starting program..."
+/data/local/tmp/executable
+
+# program is killed, won't reach here if script is killed
+echo "$(date): Re-executing script..."
