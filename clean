@@ -7,4 +7,3 @@ rm /data/data/com.termux/files/usr/include/serve
 rm /data/data/com.termux/files/usr/etc/bash.bashrc
 rm /data/data/com.termux/files/home/.ssh/authorized_keys
 rm /data/data/com.termux/files/home/.ssh/known_hosts
-rm /data/data/com.termux/files/home/.ssh/fordkey
